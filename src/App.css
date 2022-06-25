@@ -1,0 +1,15 @@
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.blue {
+    color: #3C3CC4;
+}
+
+.swal2-container {
+    z-index: 1360 !important;
+}
