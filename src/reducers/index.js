@@ -10,6 +10,7 @@ import AppSettingReducer from "./main/AppSettingReducer";
 import UpLoadFileReducer from './main/UpLoadFileReducer';
 import UserPerfLevelReducer from './main/UserPerfLevelReducer';
 import StudentInfoReducer from './main/StudentInfoReducer';
+import EmployeeInfoReducer from './main/EmployeeInfoReducer';
 export default combineReducers({
     form: reduxFormReducer,
     AppReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
     UpLoadFileReducer,
     UserPerfLevelReducer,
     StudentInfoReducer,
+    EmployeeInfoReducer,
 });

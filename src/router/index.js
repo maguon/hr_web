@@ -7,7 +7,8 @@ import {
     AppSetting,
     AuthoritySetting,
     UserPerfLevel,
-    StudentInfo
+    StudentInfo,
+    EmployeeInfo
 } from "../components";
 
 export const routes = [
@@ -20,6 +21,7 @@ export const routes = [
 export const routesWithHeader = [
     
     {path: "/student_info", exact: true, component: StudentInfo},
+    {path: "/employee_info", exact: true, component: EmployeeInfo},
 
     /** 系统设置 */
     //员工管理

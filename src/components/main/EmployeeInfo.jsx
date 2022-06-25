@@ -6,8 +6,8 @@ import {Button, Divider, Grid, Typography, Paper, TextField, TableContainer, Tab
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {makeStyles} from "@material-ui/core/styles";
 import {SimpleModal} from '../index';
-import {StudentInfoActionType} from '../../types';
-const studentInfoAction = require('../../actions/main/StudentInfoAction');
+import {EmployeeInfoActionType} from '../../types';
+const employeeInfoAction = require('../../actions/main/EmployeeInfoAction');
 const sysConst = require('../../utils/SysConst');
 const commonUtil = require('../../utils/CommonUtil');
 const customTheme = require('../layout/Theme').customTheme;
@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
      }
 }));
 //员工管理
-function StudentInfo (props) {
-    const {studentInfoReducer,getStudentList,getStudentById,addStudent,updateStudentInfo,
+function EmployeeInfo (props) {
+    const {employeeInfoReducer,getEmployeeList,getEmployeeById,addEmployee,updateEmployeeInfo,
         getParamCollegeList,getCollegeList,getCollegeLocateList,removeCollegeList} = props;
     const classes = useStyles();
     const highLevelArray =[{label:"是",value:1},{label:"否",value:0}];
 
     const [modalOpenFlag, setModalOpenFlag] = React.useState(false);
-    const [student, setStudent] = useState({});
+    const [employee, setEmployee] = useState({});
     const [name, setName] = useState("");
     const [ksh, setKsh] = useState("");
     const [collegeYear, setCollegeYear] = useState()
@@ -52,10 +52,15 @@ function StudentInfo (props) {
     const [idNum, setIdNum] = useState("");
     const [gender, setGender] = useState("1");
 
-    const [paramKsh,setParamKsh] = useState("");
+    const [paramPhone,setParamPhone] = useState("");
     const [paramName,setParamName] = useState("");
     const [paramGender,setParamGender] = useState("");
-    const [paramCollegeYear,setParamCollegeYear] = useState("");
+    const [paramNation,setParamNation] = useState("");
+    const [paramCompanyType,setParamCompanyType] = useState("");
+    const [paramCompanyName,setParamCompanyName] = useState("");
+    const [paramPosType,setParamPosType] = useState("");
+    const [paramPosName,setParamPosName] = useState("");
+    const [paramDegree,setParamDegree] = useState("");
     const [paramHighLevel,setParamHightLevel] = useState();
     const [paramCollegeDegree,setParamCollegeDegree] = useState();
 
@@ -76,7 +81,7 @@ function StudentInfo (props) {
             start :pageNumber
         };
         props.setQueryObj(queryObj);
-    },[paramKsh,paramGender,paramCollegeLocate,paramCollegeYear,paramCollegeName,paramMajorName,pageNumber])
+    },[paramPhone,paramGender,paramCollegeLocate,paramNation,paramCollegeName,paramMajorName,pageNumber])
     useEffect(()=>{
         if(collegeLocate && collegeLocate.college_locate!=null){
             getCollegeList({collegeLocate:collegeLocate.college_locate})
@@ -112,26 +117,26 @@ function StudentInfo (props) {
         setValidation(validateObj);
         return Object.keys(validateObj).length
     }
-    const addStudentFunc= ()=>{
+    const addEmployeeFunc= ()=>{
         const errorCount = validate();
         if(errorCount==0){            
-            addStudent({name,collegeYear,gender,ksh,collegeLocate,collegeName,majorName,phones,idNum});
+            addEmployee({name,collegeYear,gender,ksh,collegeLocate,collegeName,majorName,phones,idNum});
             setModalOpenFlag(false);
         }
     }
-    const updateStudentInfoById= (id)=>{
+    const updateEmployeeInfoById= (id)=>{
         const errorCount = validate();
         if(errorCount===0){
-            updateStudentInfo({name, collegeYear,ksh,collegeName,majorName,phones,idNum},id)
+            updateEmployeeInfo({name, collegeYear,ksh,collegeName,majorName,phones,idNum},id)
             
             setModalOpenFlag(false);
         }
     }
     
     //初始添加模态框值
-    const handleAddOpen =(student) =>{
+    const handleAddOpen =(employee) =>{
         setModalOpenFlag(true);
-        if (student == null) {
+        if (employee == null) {
             setModalCreateFlag(true);
             setKsh('');
             setGender('1');
@@ -145,63 +150,63 @@ function StudentInfo (props) {
         } else {
             setValidation({});
             setModalCreateFlag(false);
-            setKsh(student.ksh);
-            setName(student.name);
-            setGender(student.gender);
-            setCollegeYear(student.college_year);
-            setCollegeLocate({college_locate:student.college_locate});
-            setCollegeName(student.college_name);
-            setCollegeNameObj({college_name:student.college_name})
-            setIdNum(student.id_num);
-            setMajorName(student.major_name);
-            setPhones(student.phones);
-            setId(student.id);
+            setKsh(employee.ksh);
+            setName(employee.name);
+            setGender(employee.gender);
+            setCollegeYear(employee.college_year);
+            setCollegeLocate({college_locate:employee.college_locate});
+            setCollegeName(employee.college_name);
+            setCollegeNameObj({college_name:employee.college_name})
+            setIdNum(employee.id_num);
+            setMajorName(employee.major_name);
+            setPhones(employee.phones);
+            setId(employee.id);
         }
     }
     // 关闭模态
     const modalClose = () => {
         setModalOpenFlag(false);
     };
-    const getStudentArray =() =>{
+    const getEmployeeArray =() =>{
         props.setQueryObj({
-            ksh:paramKsh,
+            phone:paramPhone,
             name :paramName,
-            collegeYear :paramCollegeYear,
+            collegeYear :paramNation,
             collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
             collegeName :paramCollegeName&&paramCollegeName.college_name,
             majorName :paramMajorName,
             gender :paramGender,
             start :0})
-        getStudentList();
+        getEmployeeList();
         setPageNumber(0);
     }
     //上一页
-    const getPreStudentList = () => {
-        setPageNumber(pageNumber- (props.studentInfoReducer.size-1));
+    const getPreEmployeeList = () => {
+        setPageNumber(pageNumber- (props.employeeInfoReducer.size-1));
         props.setQueryObj({
-            ksh:paramKsh,
+            phone:paramPhone,
             name :paramName,
-            collegeYear :paramCollegeYear,
+            collegeYear :paramNation,
             collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
             collegeName :paramCollegeName&&paramCollegeName.college_name,
             majorName :paramMajorName,
             gender :paramGender,
-            start :pageNumber- (props.studentInfoReducer.size-1)})
-        getStudentList();
+            start :pageNumber- (props.employeeInfoReducer.size-1)})
+        getEmployeeList();
     };
     //下一页
-    const getNextStudentList = () => {
-        setPageNumber(pageNumber+ (props.studentInfoReducer.size-1));
+    const getNextEmployeeList = () => {
+        setPageNumber(pageNumber+ (props.employeeInfoReducer.size-1));
         props.setQueryObj({
-            ksh:paramKsh,
+            phone:paramPhone,
             name :paramName,
-            collegeYear :paramCollegeYear,
+            collegeYear :paramNation,
             collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
             collegeName :paramCollegeName&&paramCollegeName.college_name,
             majorName :paramMajorName,
             gender :paramGender,
-            start :pageNumber+ (props.studentInfoReducer.size-1)})
-        getStudentList();
+            start :pageNumber+ (props.employeeInfoReducer.size-1)})
+        getEmployeeList();
     };
     useEffect(()=>{
         getCollegeLocateList();
@@ -209,7 +214,7 @@ function StudentInfo (props) {
     return (
         <div className={classes.root}>
             {/* 标题部分 */}
-            <Typography gutterBottom className={classes.pageTitle}>考生管理</Typography>
+            <Typography gutterBottom className={classes.pageTitle}>在职人员管理</Typography>
             <Divider light className={classes.pageDivider}/>
 
             {/*查询条件*/}
@@ -220,9 +225,9 @@ function StudentInfo (props) {
                         fullWidth={true}
                         margin="dense"
                         variant="outlined"
-                        label="考号"
-                        value={paramKsh}
-                        onChange={(e)=>setParamKsh(e.target.value)}
+                        label="电话"
+                        value={paramPhone}
+                        onChange={(e)=>setParamPhone(e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={1}>
@@ -253,16 +258,48 @@ function StudentInfo (props) {
                 </Grid>
                 <Grid item xs={1}>
                     <FormControl variant="outlined" fullWidth margin="dense">
-                        <InputLabel >入学年份</InputLabel>
-                        <Select label="入学年份"
-                                value={paramCollegeYear}
+                        <InputLabel >民族</InputLabel>
+                        <Select label="民族"
+                                value={paramNation}
                                 onChange={(event, value) => {
-                                    setParamCollegeYear(event.target.value);
+                                    setParamNation(event.target.value);
                                 }}
                         >
                             <MenuItem value="">请选择</MenuItem>
                             {commonUtil.getLastYearArray(10).map((item,index) => (
                                 <MenuItem key={"college_locate"+index} value={item}>{item}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={1}>
+                    <FormControl variant="outlined" fullWidth margin="dense">
+                        <InputLabel >单位性质</InputLabel>
+                        <Select label="单位性质"
+                                value={paramCompanyType}
+                                onChange={(event, value) => {
+                                    setParamCompanyType(event.target.value);
+                                }}
+                        >
+                            <MenuItem value="">请选择</MenuItem>
+                            {sysConst.COMPANY_TYPE.map((item) => (
+                                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={1}>
+                    <FormControl variant="outlined" fullWidth margin="dense">
+                        <InputLabel >职称层级</InputLabel>
+                        <Select label="职称层级"
+                                value={paramPosType}
+                                onChange={(event, value) => {
+                                    setParamPosType(event.target.value);
+                                }}
+                        >
+                            <MenuItem value="">请选择</MenuItem>
+                            {sysConst.POS_TYPE.map((item) => (
+                                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -285,7 +322,7 @@ function StudentInfo (props) {
                 </Grid>
                 <Grid item xs>
                    <Autocomplete ListboxProps={{ style: { maxHeight: '175px' } }} fullWidth={true}
-                       options={studentInfoReducer.collegeLocateList}
+                       options={employeeInfoReducer.collegeLocateList}
                        getOptionLabel={(option) => option.college_locate||""}
                        onChange={(e,value)=>{
                             setParamCollegeLocate(value)
@@ -302,7 +339,7 @@ function StudentInfo (props) {
                </Grid>
                <Grid item xs>
                    <Autocomplete ListboxProps={{ style: { maxHeight: '175px' } }} fullWidth={true}
-                       options={studentInfoReducer.paramCollegeList}
+                       options={employeeInfoReducer.paramCollegeList}
                        getOptionLabel={(option) => option.college_name||""}
                        onChange={(e,value)=>{
                            setParamCollegeName(value)
@@ -314,7 +351,7 @@ function StudentInfo (props) {
                </Grid>
                 {/*查询按钮*/}
                 <Grid item xs={1} align="center">
-                    <Fab size="small" color="primary" aria-label="add" onClick={() => {getStudentArray()}} style={{marginTop: 5}}>
+                    <Fab size="small" color="primary" aria-label="add" onClick={() => {getEmployeeArray()}} style={{marginTop: 5}}>
                         <i className="mdi mdi-magnify mdi-24px"/>
                     </Fab>
                 </Grid>
@@ -347,7 +384,7 @@ function StudentInfo (props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {studentInfoReducer.studentArray.length > 0 && studentInfoReducer.studentArray.map((row) => (
+                            {employeeInfoReducer.employeeArray.length > 0 && employeeInfoReducer.employeeArray.map((row) => (
                                 <TableRow key={row.id}>
                                     <TableCell align="center" >{row.ksh}</TableCell>
                                     <TableCell align="center">{row.name}</TableCell>
@@ -364,7 +401,7 @@ function StudentInfo (props) {
                                         </IconButton>
                                     </TableCell>                                    
                                 </TableRow>))}
-                            { studentInfoReducer.studentArray.length === 0 &&
+                            { employeeInfoReducer.employeeArray.length === 0 &&
                                 <TableRow style={{height:60}}><TableCell align="center" colSpan="7">暂无数据</TableCell></TableRow>
                             }
                         </TableBody>
@@ -373,12 +410,12 @@ function StudentInfo (props) {
             </Grid>
             {/* 上下页按钮 */}
             <Box style={{textAlign: 'right', marginTop: 20}}>
-                {studentInfoReducer.dataSize >= studentInfoReducer.size &&
-                <Button className={classes.button} variant="contained" color="primary"  size="small" onClick={getNextStudentList}>
+                {employeeInfoReducer.dataSize >= employeeInfoReducer.size &&
+                <Button className={classes.button} variant="contained" color="primary"  size="small" onClick={getNextEmployeeList}>
                     下一页
                 </Button>}
-                {studentInfoReducer.queryObj.start > 0 && studentInfoReducer.dataSize > 0 &&
-                <Button className={classes.button} variant="contained" color="primary"  size="small" onClick={getPreStudentList}>
+                {employeeInfoReducer.queryObj.start > 0 && employeeInfoReducer.dataSize > 0 &&
+                <Button className={classes.button} variant="contained" color="primary"  size="small" onClick={getPreEmployeeList}>
                     上一页
                 </Button>}
             </Box>
@@ -391,11 +428,11 @@ function StudentInfo (props) {
                 showFooter={true}
                 footer={
                     <>
-                        {modalCreateFlag===false? <Button variant="contained" onClick={()=>{updateStudentInfoById(id)}}  color="secondary">
+                        {modalCreateFlag===false? <Button variant="contained" onClick={()=>{updateEmployeeInfoById(id)}}  color="secondary">
                             保存
                         </Button>:'' }
                         {modalCreateFlag===true?
-                            <Button variant="contained" onClick={addStudentFunc} color="primary">
+                            <Button variant="contained" onClick={addEmployeeFunc} color="primary">
                                 确定
                             </Button>:''}
                         <Button onClick={modalClose} color="primary" autoFocus>
@@ -475,7 +512,7 @@ function StudentInfo (props) {
                 <Grid  container spacing={3}>
                     <Grid item xs>
                         <Autocomplete ListboxProps={{ style: { maxHeight: '175px' } }} fullWidth={true}
-                            options={studentInfoReducer.collegeLocateList}
+                            options={employeeInfoReducer.collegeLocateList}
                             getOptionLabel={(option) => option.college_locate||""}
                             onChange={(e,value)=>{setCollegeLocate(value)}}
                             value={collegeLocate}
@@ -485,7 +522,7 @@ function StudentInfo (props) {
                     </Grid>
                     <Grid item xs>
                         <Autocomplete ListboxProps={{ style: { maxHeight: '175px' } }} fullWidth={true}
-                            options={studentInfoReducer.collegeList}
+                            options={employeeInfoReducer.collegeList}
                             getOptionLabel={(option) => option.college_name||""}
                             onChange={(e,value)=>{
                                 setCollegeNameObj(value)
@@ -543,56 +580,56 @@ function StudentInfo (props) {
 }
 const mapStateToProps = (state, ownProps) => {
     return {
-        studentInfoReducer: state.StudentInfoReducer
+        employeeInfoReducer: state.EmployeeInfoReducer
     }
 };
 
 const mapDispatchToProps = (dispatch) => ({
     setQueryObj:(queryObj) =>{
-        dispatch(StudentInfoActionType.setQueryObj(queryObj))
+        dispatch(EmployeeInfoActionType.setQueryObj(queryObj))
     },
     
     //添加学生
-    addStudent: (paramObj) => {     
+    addEmployee: (paramObj) => {     
         console.log(paramObj)   
-        dispatch(studentInfoAction.addStudent(paramObj));
+        dispatch(employeeInfoAction.addEmployee(paramObj));
     },
     //获取列表
-    getStudentList: () => {
-        dispatch(studentInfoAction.getStudentList())
+    getEmployeeList: () => {
+        dispatch(employeeInfoAction.getEmployeeList())
 
     },
     //获取学校属地列表
     getCollegeLocateList: () => {
-        dispatch(studentInfoAction.getCollegeLocateList())
+        dispatch(employeeInfoAction.getCollegeLocateList())
 
     },
     //获取学校列表
     getCollegeList: (paramObj) => {
-        dispatch(studentInfoAction.getCollegeList(paramObj))
+        dispatch(employeeInfoAction.getCollegeList(paramObj))
 
     },
     //获取查询学校列表
     getParamCollegeList: (paramObj) => {
         console.log("get param college")
-        dispatch(studentInfoAction.getParamCollegeList(paramObj))
+        dispatch(employeeInfoAction.getParamCollegeList(paramObj))
 
     },
     //清空学校列表
     removeCollegeList:() => {
-        dispatch(StudentInfoActionType.getCollegeList([]))
+        dispatch(EmployeeInfoActionType.getCollegeList([]))
     },
     //获取学生信息(获取初始值)
-    getStudentById:(id) => {
-        dispatch(studentInfoAction.getStudentById(id))
+    getemployeeById:(id) => {
+        dispatch(employeeInfoAction.getEmployeeById(id))
     },
     //修改学生信息
-    updateStudentInfo: (paramObj,id) => {
+    updateEmployeeInfo: (paramObj,id) => {
         
-        dispatch(studentInfoAction.updateStudentInfo(paramObj,id))
+        dispatch(employeeInfoAction.updateEmployeeInfo(paramObj,id))
     },
     
 });
-export default connect(mapStateToProps, mapDispatchToProps)(StudentInfo)
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeInfo)
 
 

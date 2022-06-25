@@ -4,13 +4,13 @@ import {UpLoadFileActionType} from "../../types";
 const httpUtil = require('../../utils/HttpUtils');
 const localUtil = require('../../utils/LocalUtils');
 const sysConst = require('../../utils/SysConst');
-export  const brandFileUpload =  (file)  => (dispatch) => {
+export  const studentFileUpload =  (file)  => (dispatch) => {
     try{
         if (file.name) {
             let formData = new FormData();
             formData.append('file', file);
             // 基本url
-            let url = apiHost + '/api/user/' + localUtil.getSessionItem(sysConst.LOGIN_USER_ID) + '/brandFile';
+            let url = apiHost + '/api/user/' + localUtil.getSessionItem(sysConst.LOGIN_USER_ID) + '/studentFile';
             httpUtil.httpAsyncFormPost(url, formData, function (res) {
                 if (res.success) {
                     dispatch({type: UpLoadFileActionType.setUpLoadFlag, payload: true})
@@ -28,17 +28,17 @@ export  const brandFileUpload =  (file)  => (dispatch) => {
             Swal.fire('不能上传空数据', err.message, 'error');
     }
 };
-export  const categoryFileUpload =  (file)  => (dispatch) => {
+export  const employeeFileUpload =  (file)  => (dispatch) => {
     try{
         if (file.name) {
             let formData = new FormData();
             formData.append('file', file);
             // 基本url
-            let url = apiHost + '/api/user/' + localUtil.getSessionItem(sysConst.LOGIN_USER_ID) + '/categoryFile';
+            let url = apiHost + '/api/user/' + localUtil.getSessionItem(sysConst.LOGIN_USER_ID) + '/employeeFile';
             httpUtil.httpAsyncFormPost(url, formData, function (res) {
                 if (res.success) {
-                    dispatch({type: UpLoadFileActionType.setCategoryUpLoadFlag, payload: true})
-                    dispatch({type: UpLoadFileActionType.setCategoryArray, payload: res.rows})
+                    dispatch({type: UpLoadFileActionType.setEmployeeUpLoadFlag, payload: true})
+                    dispatch({type: UpLoadFileActionType.setEmployeeArray, payload: res.rows})
                     Swal.fire("上传成功", "", "success");
                 } else if (!res.success) {
                     Swal.fire("上传失败", res.msg, "warning");

@@ -137,29 +137,34 @@ export const ContentFilter = function (contentArray,colObjs) {
    let errorNumber=0;
    for (let i = 0; i < contentArray.length; i++) {
       let flag=true;
-      let isNumber;
+      let cellType;
       for (let j = 0; j < colObjs.length; j++) {
          if (colObjs[j].require) {
             if (contentArray[i].data[j] == null && contentArray[i].data[j].length == 0) {
                errorNumber=errorNumber+1;
+               console.log(contentArray[i].data[j]);
                tableContentErrorFilter.push(contentArray[i]);
                flag=false;
                break;
             }
          }
          if (contentArray[i].data[j] == '' || isNaN(contentArray[i].data[j])) {
-            isNumber= "string" ;
+            cellType= "string" ;
          } else {
-            isNumber= "number";
+            cellType= "number";
          }
-         if (colObjs[j].type != isNumber && contentArray[i].data[j] != '' &&colObjs[j].require ) {
+         console.log(cellType)
+
+         if (colObjs[j].type!="string" && colObjs[j].type!= cellType && contentArray[i].data[j] != '' &&colObjs[j].require ) {
             errorNumber=errorNumber+1;
+            console.log(contentArray[i].data[j]);
             tableContentErrorFilter.push(contentArray[i]);
             flag=false;
             break;
          }
          if (colObjs[j].type=='string'&&(colObjs[j].length && colObjs[j].length != contentArray[i].data[j].length)) {
             errorNumber=errorNumber+1;
+            console.log(colObjs[j]);
             tableContentErrorFilter.push(contentArray[i]);
             flag=false;
             break;

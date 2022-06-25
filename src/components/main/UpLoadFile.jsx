@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 function UpLoadFile (props) {
-    const {uploadFileReducer,brandFileUpload,categoryFileUpload} = props;
+    const {uploadFileReducer,studentFileUpload,employeeFileUpload} = props;
     const classes = useStyles();
     const [value, setValue] = React.useState('1');
     const [successData,setSuccessData]=useState(false);
@@ -45,19 +45,25 @@ function UpLoadFile (props) {
     const [errorNumber,setErrorNumber]=useState('0');
     const [tContent,setTContent]=useState([]);
     const [inputFile,setInputFile] =useState(null);
-    const [successDataCategory,setSuccessDataCategory]=useState(false);
-    const [dataBoxCategory,setDataBoxCategory]=useState(false);
-    const [localSuccessCategory,setLocalSuccessCategory]=useState(true);
-    const [headerArrayCategory,setHeaderArrayCategory]=useState([]);
-    const [dataLengthCategory,setDataLengthCategory]=useState(0);
-    const [errorNumberCategory,setErrorNumberCategory]=useState('0');
-    const [tContentCategory,setTContentCategory]=useState([]);
-    const [inputFileCategory,setInputFileCategory] =useState(null);
+    const [successDataEmployee,setSuccessDataEmployee]=useState(false);
+    const [dataBoxEmployee,setDataBoxEmployee]=useState(false);
+    const [localSuccessEmployee,setLocalSuccessEmployee]=useState(true);
+    const [headerArrayEmployee,setHeaderArrayEmployee]=useState([]);
+    const [dataLengthEmployee,setDataLengthEmployee]=useState(0);
+    const [errorNumberEmployee,setErrorNumberEmployee]=useState('0');
+    const [tContentEmployee,setTContentEmployee]=useState([]);
+    const [inputFileEmployee,setInputFileEmployee] =useState(null);
     const buttonRef = useRef();
-    const fileBrandParams = [
-        {name: '品牌名称', type: 'string', require: true},
-        {name: '备注', type: 'string',require: false}];
-    const fileCategoryParams = [
+    const fileStudentParams = [
+        {name: '考号', type: 'string', require: true},
+        {name: '入学年份', type: 'number',require: true},
+        {name: '姓名', type: 'string',require: true},
+        {name: '身份证号', type: 'string',require: true},
+        {name: '学校', type: 'string',require: true},
+        {name: '专业', type: 'string',require: true},
+        {name: '电话', type: 'string',require: true},
+    ];
+    const fileEmployeeParams = [
         {name: '分类名称', type: 'string', require: true},
         {name: '备注', type: 'string',require: false}];
     const handleOpenDialog = (e) => {
@@ -65,13 +71,13 @@ function UpLoadFile (props) {
             buttonRef.current.open(e)
         }
     }
-    const handleOnBrandFileLoad = (file,fileName)=>{
+    const handleOnStudentFileLoad = (file,fileName)=>{
         let ext = fileName&&fileName.name.slice(fileName.name.lastIndexOf(".")+1).toLowerCase();
         if ("csv" != ext) { Swal.fire("文件类型错误");
         } else {
             //表头验证
             setHeaderArray(file[0].data);
-            if(commonUtil.titleFilter(file[0].data,fileBrandParams) != false){
+            if(commonUtil.titleFilter(file[0].data,fileStudentParams) != false){
                 // 主体内容校验
                 let content_filter_array = file.slice(1, file.length);
                 let con_line = [];
@@ -83,33 +89,33 @@ function UpLoadFile (props) {
                         con_line.push(content_filter_array[i]);
                     }
                 }
-                let resultBrand=commonUtil.ContentFilter(con_line,fileBrandParams);
-                setErrorNumber(resultBrand.tableContentErrorFilter.length);
-                setTContent(resultBrand.tableContentErrorFilter);
-                if (resultBrand.tableContentErrorFilter.length == 0) {
+                let resultStudent=commonUtil.ContentFilter(con_line,fileStudentParams);
+                setErrorNumber(resultStudent.tableContentErrorFilter.length);
+                setTContent(resultStudent.tableContentErrorFilter);
+                if (resultStudent.tableContentErrorFilter.length == 0) {
                     setSuccessData(true);
                     setDataBox(false);
-                    Swal.fire("数据格式正确"+ resultBrand.tableContentFilter.length+"条" );
+                    Swal.fire("数据格式正确"+ resultStudent.tableContentFilter.length+"条" );
                     // 总条数
-                    setDataLength(resultBrand.tableContentFilter.length);
+                    setDataLength(resultStudent.tableContentFilter.length);
                     setLocalSuccess(true);
                 } else {
                     setSuccessData(false);
                     setDataBox(true);
-                    Swal.fire("错误条数" + resultBrand.tableContentErrorFilter.length);
+                    Swal.fire("错误条数" + resultStudent.tableContentErrorFilter.length);
                 }
             }else {
                 Swal.fire("表头格式错误", "", "error");
             }
         }
     }
-    const handleOnCategoryFileLoad =(file,fileName)=>{
+    const handleOnEmployeeFileLoad =(file,fileName)=>{
         let ext = fileName&&fileName.name.slice(fileName.name.lastIndexOf(".")+1).toLowerCase();
         if ("csv" != ext) { Swal.fire("文件类型错误");
         } else {
             //表头验证
-            setHeaderArrayCategory(file[0].data);
-            if(commonUtil.titleFilter(file[0].data,fileCategoryParams) != false){
+            setHeaderArrayEmployee(file[0].data);
+            if(commonUtil.titleFilter(file[0].data,fileEmployeeParams) != false){
                 // 主体内容校验
                 let content_filter_array = file.slice(1, file.length);
                 let con_line = [];
@@ -121,37 +127,37 @@ function UpLoadFile (props) {
                         con_line.push(content_filter_array[i]);
                     }
                 }
-                let resultCategory=commonUtil.ContentFilter(con_line,fileCategoryParams);
-                setErrorNumberCategory(resultCategory.tableContentErrorFilter.length);
-                setTContentCategory(resultCategory.tableContentErrorFilter);
-                if (resultCategory.tableContentErrorFilter.length == 0) {
-                    setSuccessDataCategory(true);
-                    setDataBoxCategory(false);
-                    Swal.fire("数据格式正确"+ resultCategory.tableContentFilter.length+"条" );
+                let resultEmployee=commonUtil.ContentFilter(con_line,fileEmployeeParams);
+                setErrorNumberEmployee(resultEmployee.tableContentErrorFilter.length);
+                setTContentEmployee(resultEmployee.tableContentErrorFilter);
+                if (resultEmployee.tableContentErrorFilter.length == 0) {
+                    setSuccessDataEmployee(true);
+                    setDataBoxEmployee(false);
+                    Swal.fire("数据格式正确"+ resultEmployee.tableContentFilter.length+"条" );
                     // 总条数
-                    setDataLengthCategory(resultCategory.tableContentFilter.length);
-                    setLocalSuccessCategory(true);
+                    setDataLengthEmployee(resultEmployee.tableContentFilter.length);
+                    setLocalSuccessEmployee(true);
                 } else {
-                    setSuccessDataCategory(false);
-                    setDataBoxCategory(true);
-                    Swal.fire("错误条数" + resultCategory.tableContentErrorFilter.length);
+                    setSuccessDataEmployee(false);
+                    setDataBoxEmployee(true);
+                    Swal.fire("错误条数" + resultEmployee.tableContentErrorFilter.length);
                 }
             }else {
                 Swal.fire("表头格式错误", "", "error");
             }
         }
     }
-    const uploadBrandCsv =()=>{
-        brandFileUpload(inputFile);
+    const uploadStudentCsv =()=>{
+        studentFileUpload(inputFile);
     }
-    const uploadCategoryCsv =()=>{
-        categoryFileUpload(inputFileCategory);
+    const uploadEmployeeCsv =()=>{
+        employeeFileUpload(inputFileEmployee);
     }
-    const downLoadBrandCsv =()=>{
-        window.open('/品牌名称导入模板.csv')
+    const downLoadStudentCsv =()=>{
+        window.open('/考生信息导入模板.csv')
     }
-    const downLoadCategoryCsv =()=>{
-        window.open('/分类名称导入模板.csv')
+    const downLoadEmployeeCsv =()=>{
+        window.open('/在职人员信息导入模板.csv')
     }
     const changeTab = (event, newValue) => {
         setValue(newValue);
@@ -166,8 +172,8 @@ function UpLoadFile (props) {
                           textColor="primary"
                           variant="fullWidth">
                         <Tab label="导入说明" value="1" />
-                        <Tab label="品牌导入" value="2" />
-                        <Tab label="分类导入"   value="3" />
+                        <Tab label="考生信息导入" value="2" />
+                        <Tab label="在职信息导入"   value="3" />
                     </Tabs>
                 </AppBar>
                 <TabPanel value='1'>
@@ -196,8 +202,8 @@ function UpLoadFile (props) {
                         {/*按钮*/}
                         <Grid container xs={12} spacing={3}>
                             <Grid item xs={6} align='left'>
-                                <Button variant="contained"  color="primary" onClick={() => {downLoadBrandCsv()}}>
-                                    品牌导入模板
+                                <Button variant="contained"  color="default" startIcon={<i className="mdi  mdi-download"></i>} onClick={() => {downLoadStudentCsv()}}>
+                                    考生导入模板
                                 </Button>
                             </Grid>
                             <Grid item xs={6} align='right'>
@@ -206,14 +212,14 @@ function UpLoadFile (props) {
                                     noClick
                                     noDrag
                                     noProgressBar
-                                    onFileLoad={handleOnBrandFileLoad}
+                                    onFileLoad={handleOnStudentFileLoad}
                                 >
                                     {( {file} ) => {
                                         setInputFile(file);
                                         return (
                                             <aside>
                                                 <Button variant="contained"  color="primary" onClick={handleOpenDialog}>
-                                                    批量品牌数据导入
+                                                    批量考生数据导入
                                                 </Button>
                                             </aside>
                                         )}}
@@ -265,7 +271,7 @@ function UpLoadFile (props) {
                                 <span>总条数:<span>{dataLength}</span></span>
                             </p>}
                             <p align='center'>
-                                {localSuccess&& <Button variant="contained"  color="primary" disabled={uploadFileReducer.uploadFlag} onClick={uploadBrandCsv} >
+                                {localSuccess&& <Button variant="contained"  color="primary" disabled={uploadFileReducer.uploadFlag} onClick={uploadStudentCsv} >
                                     导入数据库
                                 </Button>}
                             </p>
@@ -273,27 +279,42 @@ function UpLoadFile (props) {
                         </div>}
                         {/*大图*/}
                         <div style={{marginTop:'100px'}}>
-                            <b style={{width:'60%',marginLeft:'30%'}}>品牌导入模板字段的解释说明:</b>
-                            <TableContainer component={Paper} style={{width:'40%',marginLeft:'30%'}}>
+                            <b style={{width:'60%',marginLeft:'20%'}}>考生导入模板字段的解释说明:</b>
+                            <TableContainer component={Paper} style={{width:'60%',marginLeft:'20%'}}>
                             <Table  size={'small'} aria-label="a dense table">
                                 <TableHead >
                                     <TableRow style={{height:50}}>
                                         <TableCell className={classes.head} align="center"></TableCell>
-                                        <TableCell className={classes.head} align="center">品牌名称</TableCell>
-                                        <TableCell className={classes.head} align="center">备注</TableCell>
+                                        <TableCell className={classes.head} align="center">考号</TableCell>
+                                        <TableCell className={classes.head} align="center">入学年份</TableCell>
+                                        <TableCell className={classes.head} align="center">姓名</TableCell>
+                                        <TableCell className={classes.head} align="center">身份证号</TableCell>
+                                        <TableCell className={classes.head} align="center">学校</TableCell>
+                                        <TableCell className={classes.head} align="center">专业</TableCell>
+                                        <TableCell className={classes.head} align="center">电话</TableCell>
 
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     <TableRow >
                                         <TableCell align="center" ><b>例如</b></TableCell>
-                                        <TableCell align="center" >马自达cx4</TableCell>
-                                        <TableCell align="center" >统一售卖</TableCell>
+                                        <TableCell align="center" >210010001</TableCell>
+                                        <TableCell align="center" >2021</TableCell>
+                                        <TableCell align="center" >张三</TableCell>
+                                        <TableCell align="center" >230301200101021516</TableCell>
+                                        <TableCell align="center" >北京大学</TableCell>
+                                        <TableCell align="center" >汉语言文学</TableCell>
+                                        <TableCell align="center" >13812341234</TableCell>
                                     </TableRow>
                                     <TableRow >
                                         <TableCell align="center" ><b>解释说明</b></TableCell>
-                                        <TableCell align="center" >该字段为品牌名称</TableCell>
-                                        <TableCell align="center" >该字段为此品牌备注</TableCell>
+                                        <TableCell align="center" >考生考号不超过20位</TableCell>
+                                        <TableCell align="center" >考生年份为整数</TableCell>
+                                        <TableCell align="center" >姓名不超过10个字</TableCell>
+                                        <TableCell align="center" >18位是身份证号码</TableCell>
+                                        <TableCell align="center" >学校名称</TableCell>
+                                        <TableCell align="center" >专业名称</TableCell>
+                                        <TableCell align="center" >考生的联系电话</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -307,8 +328,8 @@ function UpLoadFile (props) {
                         {/*按钮*/}
                         <Grid container xs={12} spacing={3}>
                             <Grid item xs={6} align='left'>
-                                <Button variant="contained"  color="primary" onClick={() => {downLoadCategoryCsv()}}>
-                                    分类导入模板
+                                <Button variant="contained"  color="default" startIcon={<i className="mdi  mdi-download"></i>} onClick={() => {downLoadEmployeeCsv()}}>
+                                    在职数据导入模板
                                 </Button>
                             </Grid>
                             <Grid item xs={6} align='right'>
@@ -317,14 +338,14 @@ function UpLoadFile (props) {
                                     noClick
                                     noDrag
                                     noProgressBar
-                                    onFileLoad={handleOnCategoryFileLoad}
+                                    onFileLoad={handleOnEmployeeFileLoad}
                                 >
                                     {( {file} ) => {
-                                        setInputFileCategory(file);
+                                        setInputFileEmployee(file);
                                         return (
                                             <aside>
                                                 <Button variant="contained"  color="primary" onClick={handleOpenDialog}>
-                                                    批量分类数据导入
+                                                    批量在职数据导入
                                                 </Button>
                                             </aside>
                                         )}}
@@ -332,20 +353,20 @@ function UpLoadFile (props) {
                             </Grid>
                         </Grid>
                         {/*本地校验*/}
-                        {dataBoxCategory&&<div>
-                            <p  xs={12} align='center' style={{padding: "20px",background:'#f50057',color:'white',fontSize:'18px'}}>错误数据<span>{errorNumberCategory}</span>条，请修改后重新上传</p>
+                        {dataBoxEmployee&&<div>
+                            <p  xs={12} align='center' style={{padding: "20px",background:'#f50057',color:'white',fontSize:'18px'}}>错误数据<span>{errorNumberEmployee}</span>条，请修改后重新上传</p>
                             <TableContainer component={Paper}>
                                 <Table  size={'small'} aria-label="a dense table">
                                     <TableHead >
                                         <TableRow style={{height:50}}>
                                             <TableCell className={classes.head} align="center">序号</TableCell>
-                                            {headerArrayCategory.map((row,index)=>(
+                                            {headerArrayEmployee.map((row,index)=>(
                                                 <TableCell key={'head-'+index} className={classes.head} align="center">{row}</TableCell>
                                             ))}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {tContentCategory.map((item,index)=>(
+                                        {tContentEmployee.map((item,index)=>(
                                             <TableRow key={'csv-'+index}>
                                                 <TableCell align="center" >{index+1}</TableCell>
                                                 {item.data.map((row)=>(
@@ -359,23 +380,23 @@ function UpLoadFile (props) {
                             </TableContainer>
                         </div>}
                         {/*上传校验*/}
-                        {successDataCategory&&<div>
+                        {successDataEmployee&&<div>
                             <Divider style={{marginTop: 20}}/>
-                            <p><span>{uploadFileReducer.categoryArray.successedInsert}</span>/<span>{dataLengthCategory}</span></p>
+                            <p><span>{uploadFileReducer.EmployeeArray.successedInsert}</span>/<span>{dataLengthEmployee}</span></p>
 
-                            {localSuccessCategory&&<p align='center'>
+                            {localSuccessEmployee&&<p align='center'>
                                 <i className="mdi mdi-check "></i><span>本地校验成功</span>
                             </p>}
-                            {uploadFileReducer.categoryUploadFlag&&<p align='center'>
+                            {uploadFileReducer.employeeUploadFlag&&<p align='center'>
                                 <i className="mdi mdi-check"></i><span>上传完成</span>
                             </p>}
-                            {uploadFileReducer.categoryUploadFlag&&<p align='center'>
-                                <span>错误条数:<span>{uploadFileReducer.categoryArray.failedCase}</span></span>
-                                <span>正确条数:<span>{uploadFileReducer.categoryArray.successedInsert}</span></span>
-                                <span>总条数:<span>{dataLengthCategory}</span></span>
+                            {uploadFileReducer.employeeUploadFlag&&<p align='center'>
+                                <span>错误条数:<span>{uploadFileReducer.employeeArray.failedCase}</span></span>
+                                <span>正确条数:<span>{uploadFileReducer.employeeArray.successedInsert}</span></span>
+                                <span>总条数:<span>{dataLengthEmployee}</span></span>
                             </p>}
                             <p align='center'>
-                                {localSuccessCategory&&<Button variant="contained"  color="primary" disabled={uploadFileReducer.categoryUploadFlag} onClick={uploadCategoryCsv} >
+                                {localSuccessEmployee&&<Button variant="contained"  color="primary" disabled={uploadFileReducer.employeeUploadFlag} onClick={uploadEmployeeCsv} >
                                     导入数据库
                                 </Button>}
                             </p>
@@ -383,7 +404,7 @@ function UpLoadFile (props) {
                         </div>}
                         {/*大图*/}
                         <div style={{marginTop:'100px'}}>
-                            <b style={{width:'60%',marginLeft:'30%'}}>分类导入模板字段的解释说明:</b>
+                            <b style={{width:'60%',marginLeft:'30%'}}>在职导入模板字段的解释说明:</b>
                             <TableContainer component={Paper} style={{marginTop:'10px',width:'40%',marginLeft:'30%'}}>
                                 <Table  size={'small'} aria-label="a dense table">
                                     <TableHead >
@@ -409,7 +430,6 @@ function UpLoadFile (props) {
                                 </Table>
                             </TableContainer>
                         </div>
-
                     </div>
                 </TabPanel>
             </TabContext>
@@ -422,11 +442,11 @@ const mapStateToProps = (state) => {
     }
 };
 const mapDispatchToProps = (dispatch) => ({
-    brandFileUpload:(inputFile)=>{
-        dispatch(UpLoadFileAction.brandFileUpload(inputFile));
+    studentFileUpload:(inputFile)=>{
+        dispatch(UpLoadFileAction.studentFileUpload(inputFile));
     },
-    categoryFileUpload:(inputFileCategory)=>{
-        dispatch(UpLoadFileAction.categoryFileUpload(inputFileCategory));
+    employeeFileUpload:(inputFileEmployee)=>{
+        dispatch(UpLoadFileAction.employeeFileUpload(inputFileEmployee));
     },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(UpLoadFile)

@@ -8,6 +8,7 @@ import * as AppSettingActionType from "./main/AppSettingActionType";
 import * as UpLoadFileActionType from './main/UpLoadFileActionType';
 import * as UserPerfLevelActionType from './main/UserPerfLevelActionType';
 import * as StudentInfoActionType from './main/StudentInfoActionType';
+import * as EmployeeInfoActionType from './main/EmployeeInfoActionType';
 export {
     AppActionType,
     CommonActionType,
@@ -18,5 +19,6 @@ export {
     AppSettingActionType,
     UpLoadFileActionType,
     UserPerfLevelActionType,    
-    StudentInfoActionType
+    StudentInfoActionType,
+    EmployeeInfoActionType
 }

@@ -5,12 +5,12 @@ const initialState = {
         failedCase:0,
         successedInsert:0,
     },
-    categoryArray:{
+    employeeArray:{
         failedCase:0,
         successedInsert:0,
     },
     uploadFlag:false,
-    categoryUploadFlag:false,
+    employeeUploadFlag:false,
 }
 export default handleActions({
     [UpLoadFileActionType.setArray]: (state, action) => {
@@ -25,16 +25,16 @@ export default handleActions({
             uploadFlag: action.payload
         }
     },
-    [UpLoadFileActionType.setCategoryArray]: (state, action) => {
+    [UpLoadFileActionType.setEmployeeArray]: (state, action) => {
         return {
             ...state,
-            categoryArray: action.payload
+            employeeArray: action.payload
         }
     },
-    [UpLoadFileActionType.setCategoryUpLoadFlag]: (state, action) => {
+    [UpLoadFileActionType.setEmployeeUpLoadFlag]: (state, action) => {
         return {
             ...state,
-            categoryUploadFlag: action.payload
+            employeeUploadFlag: action.payload
         }
     },
 }, initialState)

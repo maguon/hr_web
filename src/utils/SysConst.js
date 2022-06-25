@@ -86,6 +86,16 @@ export const GENDER = [
     {value: 0, label: "女"},
     {value: 1, label: "男"}
 ];
+// 单位性质
+export const COMPANY_TYPE = [
+    {value: 0, label: "女"},
+    {value: 1, label: "男"}
+];
+// 职称层级
+export const POS_TYPE = [
+    {value: 0, label: "女"},
+    {value: 1, label: "男"}
+];
 
 // 可用/停用 标记
 export const USE_FLAG = [
