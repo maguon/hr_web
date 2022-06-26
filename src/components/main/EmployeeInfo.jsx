@@ -35,19 +35,27 @@ const useStyles = makeStyles((theme) => ({
 //员工管理
 function EmployeeInfo (props) {
     const {employeeInfoReducer,getEmployeeList,getEmployeeById,addEmployee,updateEmployeeInfo,
-        getParamCollegeList,getCollegeList,getCollegeLocateList,removeCollegeList} = props;
+        getParamCollegeList,getCollegeList,getCollegeLocateList,removeCollegeList,getNationList,getCompanyNameList,getPosNameList} = props;
     const classes = useStyles();
     const highLevelArray =[{label:"是",value:1},{label:"否",value:0}];
 
     const [modalOpenFlag, setModalOpenFlag] = React.useState(false);
     const [employee, setEmployee] = useState({});
     const [name, setName] = useState("");
-    const [ksh, setKsh] = useState("");
+    const [phone, setPhone] = useState("");
+    const [nation, setNation] = useState("汉族");
+    const [gradYear, setGradYear] = useState("");
+    const [companyType, setCompanyType] = useState("");
+    const [companyName, setCompanyName] = useState("");
+    const [posType, setPosType] = useState("");
+    const [posName, setPosName] = useState("");
+    const [remark, setRemark] = useState("");
     const [collegeYear, setCollegeYear] = useState()
     const [collegeNameObj, setCollegeNameObj] = useState("");
     const [collegeName, setCollegeName] = useState("");
     const [collegeLocate, setCollegeLocate] = useState("");
     const [majorName, setMajorName] = useState("");
+    const [degree, setDegree] = useState("");
     const [phones, setPhones] = useState("");
     const [idNum, setIdNum] = useState("");
     const [gender, setGender] = useState("1");
@@ -95,8 +103,8 @@ function EmployeeInfo (props) {
             if (!collegeYear) {
                 validateObj.collegeYear ='请选择入学年份';
             } 
-            if (!ksh) {
-                validateObj.ksh ='请输入考生考号';
+            if (!phone) {
+                validateObj.phone ='请输入电话';
             }
             if (!name) {
                 validateObj.name ='请输入姓名';
@@ -104,14 +112,32 @@ function EmployeeInfo (props) {
             if (!idNum) {
                 validateObj.idNum ='请输入身份证号';
             }
+            if (!gradYear) {
+                validateObj.gradYear ='请输入毕业年份';
+            }
             if (!collegeName) {
                 validateObj.collegeName ='请确定学校名称';
+            }
+            if (!degree) {
+                validateObj.degree ='请输入学位信息';
             }
             if (!majorName) {
                 validateObj.majorName ='请输入专业名称';
             }
-            if (!phones) {
-                validateObj.phones ='请输入电话';
+            if (!nation) {
+                validateObj.majorName ='请输入民族';
+            }
+            if (!posType) {
+                validateObj.posType ='请选择职称层级';
+            }
+            if (!posName) {
+                validateObj.posName ='请输入职称';
+            }
+            if (!companyType) {
+                validateObj.companyType ='请选择单位性质';
+            }
+            if (!companyName) {
+                validateObj.companyName ='请输入单位名称';
             }
             
         setValidation(validateObj);
@@ -120,14 +146,14 @@ function EmployeeInfo (props) {
     const addEmployeeFunc= ()=>{
         const errorCount = validate();
         if(errorCount==0){            
-            addEmployee({name,collegeYear,gender,ksh,collegeLocate,collegeName,majorName,phones,idNum});
+            addEmployee({name,gradYear,gender,phone,collegeLocate,collegeName,majorName,phones,idNum});
             setModalOpenFlag(false);
         }
     }
     const updateEmployeeInfoById= (id)=>{
         const errorCount = validate();
         if(errorCount===0){
-            updateEmployeeInfo({name, collegeYear,ksh,collegeName,majorName,phones,idNum},id)
+            updateEmployeeInfo({name, gradYear,collegeYear,phone,collegeName,majorName,phones,idNum},id)
             
             setModalOpenFlag(false);
         }
@@ -138,28 +164,38 @@ function EmployeeInfo (props) {
         setModalOpenFlag(true);
         if (employee == null) {
             setModalCreateFlag(true);
-            setKsh('');
-            setGender('1');
-            setCollegeYear();
+            setPhone('');
+            setName('');
+            setNation('汉族');
+            setIdNum('');
+            setGradYear();
+            setCompanyType();
+            setCompanyName();
+            setPosType();
+            setPosName();
             setCollegeLocate();
             setCollegeNameObj();
-            setCollegeName();
-            setMajorName();
-            setIdNum();
-            setPhones();
+            setCollegeName('');
+            setDegree('');
+            setMajorName('');
+            setRemark('');
         } else {
             setValidation({});
             setModalCreateFlag(false);
-            setKsh(employee.ksh);
+            setPhone(employee.phone);
             setName(employee.name);
-            setGender(employee.gender);
-            setCollegeYear(employee.college_year);
+            setIdNum(employee.id_num);
+            setGradYear(employee.grad_year);
+            setCompanyType(employee.company_type);
+            setCompanyName(employee.company_name);
+            setPosType(employee.pos_type);
+            setPosName(employee.pos_name)
             setCollegeLocate({college_locate:employee.college_locate});
             setCollegeName(employee.college_name);
             setCollegeNameObj({college_name:employee.college_name})
-            setIdNum(employee.id_num);
+            setDegree({college_name:employee.degree})
             setMajorName(employee.major_name);
-            setPhones(employee.phones);
+            setRemark(employee.remark)
             setId(employee.id);
         }
     }
@@ -210,6 +246,9 @@ function EmployeeInfo (props) {
     };
     useEffect(()=>{
         getCollegeLocateList();
+        getNationList();
+        getCompanyNameList();
+        getPosNameList();
     },[])
     return (
         <div className={classes.root}>
@@ -257,21 +296,18 @@ function EmployeeInfo (props) {
                     </FormControl>
                 </Grid>
                 <Grid item xs={1}>
-                    <FormControl variant="outlined" fullWidth margin="dense">
-                        <InputLabel >民族</InputLabel>
-                        <Select label="民族"
-                                value={paramNation}
-                                onChange={(event, value) => {
-                                    setParamNation(event.target.value);
-                                }}
-                        >
-                            <MenuItem value="">请选择</MenuItem>
-                            {commonUtil.getLastYearArray(10).map((item,index) => (
-                                <MenuItem key={"college_locate"+index} value={item}>{item}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
+                   <Autocomplete ListboxProps={{ style: { maxHeight: '175px' } }} fullWidth={true}
+                       options={employeeInfoReducer.nationList}
+                       getOptionLabel={(option) => option.nation||""}
+                       onChange={(e,value)=>{
+                            setParamNation(value)
+                            
+                       }}
+                       value={paramNation}
+                       renderInput={(params) => <TextField {...params} label="民族" margin="dense" variant="outlined"
+                       />}
+                   />
+               </Grid>
                 <Grid item xs={1}>
                     <FormControl variant="outlined" fullWidth margin="dense">
                         <InputLabel >单位性质</InputLabel>
@@ -288,7 +324,20 @@ function EmployeeInfo (props) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs>
+                   <Autocomplete ListboxProps={{ style: { maxHeight: '175px' } }} fullWidth={true}
+                       options={employeeInfoReducer.companyNameList}
+                       getOptionLabel={(option) => option.company_name||""}
+                       onChange={(e,value)=>{
+                            setParamCompanyName(value)
+                            
+                       }}
+                       value={paramCompanyName}
+                       renderInput={(params) => <TextField {...params} label="单位名称" margin="dense" variant="outlined"
+                       />}
+                   />
+               </Grid>
+               <Grid item xs={1}>
                     <FormControl variant="outlined" fullWidth margin="dense">
                         <InputLabel >职称层级</InputLabel>
                         <Select label="职称层级"
@@ -304,51 +353,20 @@ function EmployeeInfo (props) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1}>
-                    <FormControl variant="outlined" fullWidth margin="dense">
-                        <InputLabel >双一流高校</InputLabel>
-                        <Select label="双一流高校"
-                                value={paramHighLevel}
-                                onChange={(event, value) => {
-                                    setParamHightLevel(event.target.value);
-                                }}
-                        >
-                            <MenuItem value="">请选择</MenuItem>
-                            {highLevelArray.map((item) => (
-                                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
                 <Grid item xs>
                    <Autocomplete ListboxProps={{ style: { maxHeight: '175px' } }} fullWidth={true}
-                       options={employeeInfoReducer.collegeLocateList}
-                       getOptionLabel={(option) => option.college_locate||""}
+                       options={employeeInfoReducer.posNameList}
+                       getOptionLabel={(option) => option.pos_name||""}
                        onChange={(e,value)=>{
-                            setParamCollegeLocate(value)
-                            if(value && value.college_locate!=null){
-                                getParamCollegeList({collegeLocate:value.college_locate})
-                            }else{
-                                removeCollegeList();
-                            }
+                            setParamPosName(value)
+                            
                        }}
-                       value={paramCollegeLocate}
-                       renderInput={(params) => <TextField {...params} label="学校属地" margin="dense" variant="outlined"
+                       value={paramPosName}
+                       renderInput={(params) => <TextField {...params} label="职称" margin="dense" variant="outlined"
                        />}
                    />
                </Grid>
-               <Grid item xs>
-                   <Autocomplete ListboxProps={{ style: { maxHeight: '175px' } }} fullWidth={true}
-                       options={employeeInfoReducer.paramCollegeList}
-                       getOptionLabel={(option) => option.college_name||""}
-                       onChange={(e,value)=>{
-                           setParamCollegeName(value)
-                       }}
-                       value={paramCollegeName}
-                       renderInput={(params) => <TextField {...params} label="学校" margin="dense" variant="outlined"
-                       />}
-                   />
-               </Grid>
+                
                 {/*查询按钮*/}
                 <Grid item xs={1} align="center">
                     <Fab size="small" color="primary" aria-label="add" onClick={() => {getEmployeeArray()}} style={{marginTop: 5}}>
@@ -371,14 +389,18 @@ function EmployeeInfo (props) {
                     <Table  size={'small'} aria-label="a dense table">
                         <TableHead >
                             <TableRow style={{height:50}}>
-                                <TableCell className={classes.head} align="center">考号</TableCell>
+                                <TableCell className={classes.head} align="center">电话</TableCell>
                                 <TableCell className={classes.head} align="center">姓名</TableCell>
                                 <TableCell className={classes.head} align="center">生日</TableCell>
                                 <TableCell className={classes.head} align="center">性别</TableCell>
-                                <TableCell className={classes.head} align="center">入学年份</TableCell>
+                                <TableCell className={classes.head} align="center">民族</TableCell>
+                                <TableCell className={classes.head} align="center">毕业年份</TableCell>
                                 <TableCell className={classes.head} align="center">学校</TableCell>
                                 <TableCell className={classes.head} align="center">专业</TableCell>
-                                <TableCell className={classes.head} align="center">电话</TableCell>
+                                <TableCell className={classes.head} align="center">单位性质</TableCell>
+                                <TableCell className={classes.head} align="center">单位名称</TableCell>
+                                <TableCell className={classes.head} align="center">职称层级</TableCell>
+                                <TableCell className={classes.head} align="center">职称</TableCell>
                                 <TableCell className={classes.head} align="center">录入时间</TableCell>
                                 <TableCell className={classes.head} align="center">操作</TableCell>
                             </TableRow>
@@ -386,14 +408,18 @@ function EmployeeInfo (props) {
                         <TableBody>
                             {employeeInfoReducer.employeeArray.length > 0 && employeeInfoReducer.employeeArray.map((row) => (
                                 <TableRow key={row.id}>
-                                    <TableCell align="center" >{row.ksh}</TableCell>
+                                    <TableCell align="center" >{row.phone}</TableCell>
                                     <TableCell align="center">{row.name}</TableCell>
                                     <TableCell align="center">{commonUtil.number2date(row.birth)}</TableCell>
                                     <TableCell align="center">{commonUtil.getJsonValue(sysConst.GENDER, row.gender)}</TableCell>
-                                    <TableCell align="center">{row.college_year}</TableCell>
+                                    <TableCell align="center">{row.nation}</TableCell>
+                                    <TableCell align="center">{row.grad_year}</TableCell>
                                     <TableCell align="center">{row.college_name}</TableCell>
                                     <TableCell align="center">{row.major_name}</TableCell>
-                                    <TableCell align="center">{row.phones}</TableCell>
+                                    <TableCell align="center">{row.company_type}</TableCell>
+                                    <TableCell align="center">{row.company_name}</TableCell>
+                                    <TableCell align="center">{row.pos_type}</TableCell>
+                                    <TableCell align="center">{row.pos_name}</TableCell>
                                     <TableCell align="center">{commonUtil.getDateTime(row.created_on)}</TableCell>
                                     <TableCell align="center">
                                         <IconButton color="primary" edge="start" size="small" onClick={() => {handleAddOpen(row);}}>
@@ -402,7 +428,7 @@ function EmployeeInfo (props) {
                                     </TableCell>                                    
                                 </TableRow>))}
                             { employeeInfoReducer.employeeArray.length === 0 &&
-                                <TableRow style={{height:60}}><TableCell align="center" colSpan="7">暂无数据</TableCell></TableRow>
+                                <TableRow style={{height:60}}><TableCell align="center" colSpan="14">暂无数据</TableCell></TableRow>
                             }
                         </TableBody>
                     </Table>
@@ -422,7 +448,7 @@ function EmployeeInfo (props) {
 
             {/*添加或修改用户信息*/}
             <SimpleModal
-                title={modalCreateFlag==true ? "新增学生信息" : "修改学生信息"}
+                title={modalCreateFlag==true ? "新增在职人员信息" : "修改在职信息"}
                 open={modalOpenFlag}
                 onClose={modalClose}
                 showFooter={true}
@@ -444,40 +470,20 @@ function EmployeeInfo (props) {
                 <Grid  container spacing={3}>
                     
                     <Grid item xs>
-                    <FormControl variant="outlined" fullWidth margin="dense" error={validation.collegeYear&&validation.collegeYear!=''}>
-                        <InputLabel >入学年份</InputLabel>
-                        <Select label="入学年份"
-                            value={collegeYear}
-                            onChange={(event, value) => {
-                                setCollegeYear(event.target.value);
-                            }}
-                            
-                        >
-                            <MenuItem value="">请选择</MenuItem>
-                            {commonUtil.getLastYearArray(10).map((item,index) => (
-                                <MenuItem key={"college_year"+index} value={item}>{item}</MenuItem>
-                            ))}
-                        </Select>
-                        <FormHelperText>{validation.collegeYear}</FormHelperText>
-                    </FormControl>
-                    </Grid>
-                    <Grid item xs>
                         <TextField fullWidth
                             margin='dense'
-                            label="考号"
-                            name="sku"
+                            label="电话"
+                            name="phone"
                             type="text"
                             variant="outlined"
                             onChange={(e)=>{
-                                setKsh(e.target.value)
+                                setPhone(e.target.value)
                             }}
-                            error={validation.ksh&&validation.ksh!=''}
-                            helperText={validation.ksh}
-                            value={ksh}
+                            error={validation.phone&&validation.phone!=''}
+                            helperText={validation.phone}
+                            value={phone}
                         />
                     </Grid>
-                </Grid>
-                <Grid  container spacing={3}>
                     <Grid item xs>
                         <TextField fullWidth
                             margin='dense'
@@ -491,6 +497,23 @@ function EmployeeInfo (props) {
                             error={validation.name&&validation.name!=''}
                             helperText={validation.name}
                             value={name}
+                        />
+                    </Grid>
+                </Grid>
+                <Grid  container spacing={3}>
+                    <Grid item xs>
+                        <TextField fullWidth
+                            margin='dense'
+                            label="民族"
+                            name="nation"
+                            type="text"
+                            variant="outlined"
+                            onChange={(e)=>{
+                                setNation(e.target.value)
+                            }}
+                            error={validation.nation&&validation.nation!=''}
+                            helperText={validation.nation}
+                            value={nation}
                         />
                     </Grid>
                     <Grid item xs>
@@ -543,6 +566,38 @@ function EmployeeInfo (props) {
                     <Grid item xs>
                         <TextField fullWidth
                             margin='dense'
+                            label="毕业年份"
+                            name="gradYear"
+                            type="number"
+                            variant="outlined"
+                            onChange={(e)=>{
+                                setGradYear(e.target.value)
+                            }}
+                            error={validation.gradYear&&validation.gradYear!=''}
+                            helperText={validation.gradYear}
+                            value={gradYear}
+                        />
+                    </Grid>
+                    <Grid item xs>
+                        <TextField fullWidth
+                            margin='dense'
+                            label="学位"
+                            name="degree"
+                            type="text"
+                            variant="outlined"
+                            onChange={(e)=>{
+                                setDegree(e.target.value)
+                            }}
+                            error={validation.degree&&validation.degree!=''}
+                            helperText={validation.degree}
+                            value={degree}
+                        />
+                    </Grid>
+                </Grid>
+                <Grid  container spacing={3}>
+                    <Grid item xs>
+                        <TextField fullWidth
+                            margin='dense'
                             label="专业"
                             name="majorName"
                             type="text"
@@ -558,18 +613,86 @@ function EmployeeInfo (props) {
                 </Grid>
                 <Grid  container spacing={3}>
                     <Grid item xs>
+                        <FormControl variant="outlined" fullWidth margin="dense" error={validation.companyType&&validation.companyType!=''}>
+                            <InputLabel >单位性质</InputLabel>
+                            <Select label="单位性质"
+                                    value={companyType}
+                                    onChange={(event, value) => {
+                                        setCompanyType(event.target.value);
+                                    }}
+                            >
+                                <MenuItem value="">请选择</MenuItem>
+                                {sysConst.COMPANY_TYPE.map((item) => (
+                                    <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                                ))}
+                            </Select>
+                            <FormHelperText>{validation.companyType}</FormHelperText>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs>
                         <TextField fullWidth
                             margin='dense'
-                            label="电话"
-                            name="phones"
+                            label="单位名称"
+                            name="companyName"
                             type="text"
                             variant="outlined"
                             onChange={(e)=>{
-                                setPhones(e.target.value)
+                                setCompanyName(e.target.value)
                             }}
-                            error={validation.phones&&validation.phones!=''}
-                            helperText={validation.phones}
-                            value={phones}
+                            error={validation.companyName&&validation.companyName!=''}
+                            helperText={validation.companyName}
+                            value={companyName}
+                        />
+                    </Grid>
+                </Grid>
+                <Grid  container spacing={3}>
+                    <Grid item xs>
+                        <FormControl variant="outlined" fullWidth margin="dense" error={validation.posType&&validation.posType!=''}>
+                            <InputLabel >职称层级</InputLabel>
+                            <Select label="职称层级"
+                                    value={posType}
+                                    onChange={(event, value) => {
+                                        setPosType(event.target.value);
+                                    }}
+                            >
+                                <MenuItem value="">请选择</MenuItem>
+                                {sysConst.POS_TYPE.map((item) => (
+                                    <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                                ))}
+                            </Select>
+                            <FormHelperText>{validation.posType}</FormHelperText>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs>
+                        <TextField fullWidth
+                            margin='dense'
+                            label="职称"
+                            name="posName"
+                            type="text"
+                            variant="outlined"
+                            onChange={(e)=>{
+                                setPosName(e.target.value)
+                            }}
+                            error={validation.posName&&validation.posName!=''}
+                            helperText={validation.posName}
+                            value={posName}
+                        />
+                    </Grid>
+                </Grid>
+                <Grid  container spacing={3}>
+                    <Grid item xs>
+                        <TextField fullWidth
+                            margin='dense'
+                            label="备注"
+                            name="remark"
+                            type="text"
+                            variant="outlined"
+                            onChange={(e)=>{
+                                setRemark(e.target.value)
+                            }}
+                            error={validation.remark&&validation.remark!=''}
+                            helperText={validation.remark}
+                            value={remark}
                         />
                     </Grid>
                 </Grid>
@@ -599,7 +722,22 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(employeeInfoAction.getEmployeeList())
 
     },
-    //获取学校属地列表
+    //获取民族列表
+    getNationList: () => {
+        dispatch(employeeInfoAction.getNationList())
+
+    },
+    //获取单位列表
+    getCompanyNameList: () => {
+        dispatch(employeeInfoAction.getCompanyNameList())
+
+    },
+    //获取职位列表
+    getPosNameList: () => {
+        dispatch(employeeInfoAction.getPosNameList())
+
+    },
+    //获取学校列表
     getCollegeLocateList: () => {
         dispatch(employeeInfoAction.getCollegeLocateList())
 

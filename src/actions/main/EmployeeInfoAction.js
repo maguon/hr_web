@@ -34,16 +34,68 @@ export const getCollegeLocateList = () => async (dispatch, getState) => {
        
         // 基本检索URL
         let url = apiHost + '/api/user/'+localUtil.getSessionItem(sysConst.LOGIN_USER_ID)+'/collegeLocate';
-        
         dispatch({type: AppActionType.showLoadProgress, payload: true});
         // 检索URL
-       
         const res = await httpUtil.httpGet(url);
         dispatch({type: AppActionType.showLoadProgress, payload: false});
         if (res.success === true) {
             dispatch({type: EmployeeInfoActionType.getCollegeLocateList, payload: res.rows});
         } else if (res.success === false) {
              Swal.fire('获取学校属地列表信息失败', res.msg, 'warning');
+        }
+    } catch (err) {
+         Swal.fire('操作失败', err.message, 'error');
+    }
+}
+export const getNationList = () => async (dispatch, getState) => {
+    try {
+       
+        // 基本检索URL
+        let url = apiHost + '/api/user/'+localUtil.getSessionItem(sysConst.LOGIN_USER_ID)+'/nation';
+        dispatch({type: AppActionType.showLoadProgress, payload: true});
+        // 检索URL
+        const res = await httpUtil.httpGet(url);
+        dispatch({type: AppActionType.showLoadProgress, payload: false});
+        if (res.success === true) {
+            dispatch({type: EmployeeInfoActionType.getNationList, payload: res.rows});
+        } else if (res.success === false) {
+             Swal.fire('获取民族列表信息失败', res.msg, 'warning');
+        }
+    } catch (err) {
+         Swal.fire('操作失败', err.message, 'error');
+    }
+}
+export const getCompanyNameList = () => async (dispatch, getState) => {
+    try {
+       
+        // 基本检索URL
+        let url = apiHost + '/api/user/'+localUtil.getSessionItem(sysConst.LOGIN_USER_ID)+'/companyName';
+        dispatch({type: AppActionType.showLoadProgress, payload: true});
+        // 检索URL
+        const res = await httpUtil.httpGet(url);
+        dispatch({type: AppActionType.showLoadProgress, payload: false});
+        if (res.success === true) {
+            dispatch({type: EmployeeInfoActionType.getCompanyNameList, payload: res.rows});
+        } else if (res.success === false) {
+             Swal.fire('获取单位列表信息失败', res.msg, 'warning');
+        }
+    } catch (err) {
+         Swal.fire('操作失败', err.message, 'error');
+    }
+}
+export const getPosNameList = () => async (dispatch, getState) => {
+    try {
+       
+        // 基本检索URL
+        let url = apiHost + '/api/user/'+localUtil.getSessionItem(sysConst.LOGIN_USER_ID)+'/posName';
+        dispatch({type: AppActionType.showLoadProgress, payload: true});
+        // 检索URL
+        const res = await httpUtil.httpGet(url);
+        dispatch({type: AppActionType.showLoadProgress, payload: false});
+        if (res.success === true) {
+            dispatch({type: EmployeeInfoActionType.getPosNameList, payload: res.rows});
+        } else if (res.success === false) {
+             Swal.fire('获取职称列表信息失败', res.msg, 'warning');
         }
     } catch (err) {
          Swal.fire('操作失败', err.message, 'error');

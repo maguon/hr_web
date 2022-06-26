@@ -365,7 +365,7 @@ function StudentInfo (props) {
                                     </TableCell>                                    
                                 </TableRow>))}
                             { studentInfoReducer.studentArray.length === 0 &&
-                                <TableRow style={{height:60}}><TableCell align="center" colSpan="7">暂无数据</TableCell></TableRow>
+                                <TableRow style={{height:60}}><TableCell align="center" colSpan="10">暂无数据</TableCell></TableRow>
                             }
                         </TableBody>
                     </Table>

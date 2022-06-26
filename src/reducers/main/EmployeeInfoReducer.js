@@ -22,6 +22,10 @@ const initialState = {
     collegeList:[],
     paramCollegeList:[],
     collegeLocateList:[],
+    nationList:[],
+    companyNameList:[],
+    posNameList:[],
+    
     
 };
 export default handleActions({
@@ -29,6 +33,24 @@ export default handleActions({
         return {
             ...state,
             queryObj: action.payload
+        }
+    },
+    [EmployeeInfoActionType.getCompanyNameList]: (state, action) => {
+        return {
+            ...state,
+            companyNameList: action.payload
+        }
+    },
+    [EmployeeInfoActionType.getPosNameList]: (state, action) => {
+        return {
+            ...state,
+            posNameList: action.payload
+        }
+    },
+    [EmployeeInfoActionType.getNationList]: (state, action) => {
+        return {
+            ...state,
+            nationList: action.payload
         }
     },
     [EmployeeInfoActionType.getCollegeLocateList]: (state, action) => {

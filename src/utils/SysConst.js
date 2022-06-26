@@ -88,13 +88,15 @@ export const GENDER = [
 ];
 // 单位性质
 export const COMPANY_TYPE = [
-    {value: 0, label: "女"},
-    {value: 1, label: "男"}
+    {value: 1, label: "机关"},
+    {value: 2, label: "事业"},
+    {value: 3, label: "企业"},
 ];
 // 职称层级
 export const POS_TYPE = [
-    {value: 0, label: "女"},
-    {value: 1, label: "男"}
+    {value: 1, label: "初级"},
+    {value: 2, label: "中级"},
+    {value: 3, label: "高级"},
 ];
 
 // 可用/停用 标记
