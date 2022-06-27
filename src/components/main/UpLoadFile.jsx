@@ -64,8 +64,20 @@ function UpLoadFile (props) {
         {name: '电话', type: 'string',require: true},
     ];
     const fileEmployeeParams = [
-        {name: '分类名称', type: 'string', require: true},
-        {name: '备注', type: 'string',require: false}];
+        {name: '姓名', type: 'string', require: true},
+        {name: '身份证号', type: 'string',require: true},
+        {name: '电话', type: 'number',require: true},
+        {name: '民族', type: 'string',require: true},
+        {name: '毕业年份', type: 'number',require: true},
+        {name: '学校', type: 'string',require: true},
+        {name: '专业', type: 'string',require: true},
+        {name: '学位', type: 'string',require: true},
+        {name: '单位', type: 'string',require: true},
+        {name: '单位性质', type: 'string',require: true},
+        {name: '职称', type: 'string',require: true},
+        {name: '职称层级', type: 'string',require: true},
+        {name: '备注', type: 'string',require: true},
+    ];
     const handleOpenDialog = (e) => {
         if (buttonRef.current) {
             buttonRef.current.open(e)
@@ -382,7 +394,7 @@ function UpLoadFile (props) {
                         {/*上传校验*/}
                         {successDataEmployee&&<div>
                             <Divider style={{marginTop: 20}}/>
-                            <p><span>{uploadFileReducer.EmployeeArray.successedInsert}</span>/<span>{dataLengthEmployee}</span></p>
+                            <p><span>{uploadFileReducer.employeeArray.successedInsert}</span>/<span>{dataLengthEmployee}</span></p>
 
                             {localSuccessEmployee&&<p align='center'>
                                 <i className="mdi mdi-check "></i><span>本地校验成功</span>
@@ -404,13 +416,24 @@ function UpLoadFile (props) {
                         </div>}
                         {/*大图*/}
                         <div style={{marginTop:'100px'}}>
-                            <b style={{width:'60%',marginLeft:'30%'}}>在职导入模板字段的解释说明:</b>
-                            <TableContainer component={Paper} style={{marginTop:'10px',width:'40%',marginLeft:'30%'}}>
+                            <b style={{width:'90%',marginLeft:'5%'}}>在职导入模板字段的解释说明:</b>
+                            <TableContainer component={Paper} style={{marginTop:'10px',width:'90%',marginLeft:'5%'}}>
                                 <Table  size={'small'} aria-label="a dense table">
                                     <TableHead >
                                         <TableRow style={{height:50}}>
                                             <TableCell className={classes.head} align="center"></TableCell>
-                                            <TableCell className={classes.head} align="center">分类名称</TableCell>
+                                            <TableCell className={classes.head} align="center">姓名</TableCell>
+                                            <TableCell className={classes.head} align="center">身份证号</TableCell>
+                                            <TableCell className={classes.head} align="center">电话</TableCell>
+                                            <TableCell className={classes.head} align="center">民族</TableCell>
+                                            <TableCell className={classes.head} align="center">毕业年份</TableCell>
+                                            <TableCell className={classes.head} align="center">学校</TableCell>
+                                            <TableCell className={classes.head} align="center">专业</TableCell>
+                                            <TableCell className={classes.head} align="center">学位</TableCell>
+                                            <TableCell className={classes.head} align="center">单位</TableCell>
+                                            <TableCell className={classes.head} align="center">单位性质</TableCell>
+                                            <TableCell className={classes.head} align="center">职称</TableCell>
+                                            <TableCell className={classes.head} align="center">职称层级</TableCell>
                                             <TableCell className={classes.head} align="center">备注</TableCell>
 
                                         </TableRow>
@@ -418,13 +441,35 @@ function UpLoadFile (props) {
                                     <TableBody>
                                         <TableRow >
                                             <TableCell align="center" ><b>例如</b></TableCell>
-                                            <TableCell align="center" >轿车</TableCell>
-                                            <TableCell align="center" >打折商品</TableCell>
+                                            <TableCell className={classes.head} align="center">张三</TableCell>
+                                            <TableCell className={classes.head} align="center">230301200101021516</TableCell>
+                                            <TableCell className={classes.head} align="center">13812341234</TableCell>
+                                            <TableCell className={classes.head} align="center">汉族</TableCell>
+                                            <TableCell className={classes.head} align="center">2021</TableCell>
+                                            <TableCell className={classes.head} align="center">北京大学</TableCell>
+                                            <TableCell className={classes.head} align="center">汉语言文学</TableCell>
+                                            <TableCell className={classes.head} align="center">本科</TableCell>
+                                            <TableCell className={classes.head} align="center">鸡西市国税局</TableCell>
+                                            <TableCell className={classes.head} align="center">机关</TableCell>
+                                            <TableCell className={classes.head} align="center">中级会计师</TableCell>
+                                            <TableCell className={classes.head} align="center">中级</TableCell>
+                                            <TableCell className={classes.head} align="center">特殊引入人才</TableCell>
                                         </TableRow>
                                         <TableRow >
                                             <TableCell align="center" ><b>解释说明</b></TableCell>
-                                            <TableCell align="center" >分类名称(必填)</TableCell>
-                                            <TableCell align="center" >分类名称备注(选填)200字内</TableCell>
+                                            <TableCell className={classes.head} align="center">姓名不超过10个字</TableCell>
+                                            <TableCell className={classes.head} align="center">18位是身份证号码</TableCell>
+                                            <TableCell className={classes.head} align="center">联系电话</TableCell>
+                                            <TableCell className={classes.head} align="center">民族信息</TableCell>
+                                            <TableCell className={classes.head} align="center">年份为整数</TableCell>
+                                            <TableCell className={classes.head} align="center">学校名称</TableCell>
+                                            <TableCell className={classes.head} align="center">专业名称</TableCell>
+                                            <TableCell className={classes.head} align="center">学位名称</TableCell>
+                                            <TableCell className={classes.head} align="center">单位名称</TableCell>
+                                            <TableCell className={classes.head} align="center">机关、事业、企业三选一</TableCell>
+                                            <TableCell className={classes.head} align="center">职称</TableCell>
+                                            <TableCell className={classes.head} align="center">初级、中级、高级三选一</TableCell>
+                                            <TableCell className={classes.head} align="center">不超过100个字</TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>

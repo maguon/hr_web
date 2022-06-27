@@ -100,9 +100,7 @@ function EmployeeInfo (props) {
     //验证()
     const validate = ()=>{
         const validateObj ={}
-            if (!collegeYear) {
-                validateObj.collegeYear ='请选择入学年份';
-            } 
+            
             if (!phone) {
                 validateObj.phone ='请输入电话';
             }
@@ -145,15 +143,16 @@ function EmployeeInfo (props) {
     }
     const addEmployeeFunc= ()=>{
         const errorCount = validate();
+        console.log(errorCount)
         if(errorCount==0){            
-            addEmployee({name,gradYear,gender,phone,collegeLocate,collegeName,majorName,phones,idNum});
+            addEmployee({name,gradYear,phone,idNum,nation,collegeLocate,collegeName,majorName,degree,companyType,companyName,posType,posName,remark});
             setModalOpenFlag(false);
         }
     }
     const updateEmployeeInfoById= (id)=>{
         const errorCount = validate();
         if(errorCount===0){
-            updateEmployeeInfo({name, gradYear,collegeYear,phone,collegeName,majorName,phones,idNum},id)
+            updateEmployeeInfo({name,gradYear,phone,idNum,nation,collegeLocate,collegeName,majorName,degree,companyType,companyName,posType,posName,remark},id)
             
             setModalOpenFlag(false);
         }
@@ -193,7 +192,7 @@ function EmployeeInfo (props) {
             setCollegeLocate({college_locate:employee.college_locate});
             setCollegeName(employee.college_name);
             setCollegeNameObj({college_name:employee.college_name})
-            setDegree({college_name:employee.degree})
+            setDegree(employee.degree)
             setMajorName(employee.major_name);
             setRemark(employee.remark)
             setId(employee.id);
@@ -416,9 +415,9 @@ function EmployeeInfo (props) {
                                     <TableCell align="center">{row.grad_year}</TableCell>
                                     <TableCell align="center">{row.college_name}</TableCell>
                                     <TableCell align="center">{row.major_name}</TableCell>
-                                    <TableCell align="center">{row.company_type}</TableCell>
+                                    <TableCell align="center">{commonUtil.getJsonValue(sysConst.COMPANY_TYPE, row.company_type)}</TableCell>
                                     <TableCell align="center">{row.company_name}</TableCell>
-                                    <TableCell align="center">{row.pos_type}</TableCell>
+                                    <TableCell align="center">{commonUtil.getJsonValue(sysConst.POS_TYPE, row.pos_type)}</TableCell>
                                     <TableCell align="center">{row.pos_name}</TableCell>
                                     <TableCell align="center">{commonUtil.getDateTime(row.created_on)}</TableCell>
                                     <TableCell align="center">
