@@ -9,6 +9,7 @@ import * as UpLoadFileActionType from './main/UpLoadFileActionType';
 import * as UserPerfLevelActionType from './main/UserPerfLevelActionType';
 import * as StudentInfoActionType from './main/StudentInfoActionType';
 import * as EmployeeInfoActionType from './main/EmployeeInfoActionType';
+import * as StudentStatActionType from './main/StudentStatActionType';
 export {
     AppActionType,
     CommonActionType,
@@ -20,5 +21,6 @@ export {
     UpLoadFileActionType,
     UserPerfLevelActionType,    
     StudentInfoActionType,
-    EmployeeInfoActionType
+    EmployeeInfoActionType,
+    StudentStatActionType
 }

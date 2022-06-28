@@ -16,6 +16,7 @@ import UpLoadFile from './main/UpLoadFile';
 import NotFound from './layout/NotFound';
 import UserPerfLevel from './main/UserPerfLevel';
 import StudentInfo from './main/StudentInfo'
+import StudentStat from './main/StudentStat'
 import EmployeeInfo from './main/EmployeeInfo'
 import NestedList from './utils/NestedList'
 
@@ -38,6 +39,7 @@ export {
     NotFound,
     UserPerfLevel,
     StudentInfo,
+    StudentStat,
     EmployeeInfo,
     NestedList
 }
