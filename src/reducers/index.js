@@ -12,6 +12,7 @@ import UserPerfLevelReducer from './main/UserPerfLevelReducer';
 import StudentInfoReducer from './main/StudentInfoReducer';
 import EmployeeInfoReducer from './main/EmployeeInfoReducer';
 import StudentStatReducer from './main/StudentStatReducer';
+import EmployeeStatReducer from './main/EmployeeStatReducer';
 export default combineReducers({
     form: reduxFormReducer,
     AppReducer,
@@ -25,5 +26,6 @@ export default combineReducers({
     UserPerfLevelReducer,
     StudentInfoReducer,
     EmployeeInfoReducer,
-    StudentStatReducer
+    StudentStatReducer,
+    EmployeeStatReducer
 });

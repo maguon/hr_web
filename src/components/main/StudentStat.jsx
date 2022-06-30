@@ -65,8 +65,7 @@ function StudentStat(props) {
         }
         const option = {
             title : {
-                text: '某站点用户访问来源',
-                subtext: '纯属虚构',
+                text: '系统内男女考生比例',
                 x:'center'
             },
             tooltip : {

@@ -18,6 +18,7 @@ import UserPerfLevel from './main/UserPerfLevel';
 import StudentInfo from './main/StudentInfo'
 import StudentStat from './main/StudentStat'
 import EmployeeInfo from './main/EmployeeInfo'
+import EmployeeStat from './main/EmployeeStat'
 import NestedList from './utils/NestedList'
 
 export {
@@ -41,5 +42,6 @@ export {
     StudentInfo,
     StudentStat,
     EmployeeInfo,
+    EmployeeStat,
     NestedList
 }

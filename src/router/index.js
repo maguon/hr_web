@@ -9,7 +9,9 @@ import {
     UserPerfLevel,
     StudentInfo,
     StudentStat,
-    EmployeeInfo
+    EmployeeInfo,
+    EmployeeStat,
+    MainPanel
 } from "../components";
 
 export const routes = [
@@ -24,10 +26,12 @@ export const routesWithHeader = [
     {path: "/student_info", exact: true, component: StudentInfo},
     {path: "/employee_info", exact: true, component: EmployeeInfo},
     {path: "/student_stat", exact: true, component: StudentStat},
+    {path: "/employee_stat", exact: true, component: EmployeeStat},
 
     /** 系统设置 */
     //员工管理
     {path: "/admin_user_setting", exact: true, component: AdminUserSetting},
+    {path: "/main_panel", exact: true, component: MainPanel},
     // App系统
     {path: "/app_setting", exact: true, component: AppSetting},
     // 绩效设置
