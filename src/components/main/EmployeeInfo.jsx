@@ -206,11 +206,12 @@ function EmployeeInfo (props) {
         props.setQueryObj({
             phone:paramPhone,
             name :paramName,
-            collegeYear :paramNation,
-            collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
-            collegeName :paramCollegeName&&paramCollegeName.college_name,
-            majorName :paramMajorName,
+            companyType :paramCompanyType,
+            companyName :paramCompanyName&&paramCompanyName.company_name,
+            posType :paramPosType,
+            posName :paramPosName&&paramPosName.pos_name,
             gender :paramGender,
+            nation :paramNation&&paramNation.nation,
             start :0})
         getEmployeeList();
         setPageNumber(0);
@@ -221,11 +222,12 @@ function EmployeeInfo (props) {
         props.setQueryObj({
             phone:paramPhone,
             name :paramName,
-            collegeYear :paramNation,
-            collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
-            collegeName :paramCollegeName&&paramCollegeName.college_name,
-            majorName :paramMajorName,
+            companyType :paramCompanyType,
+            companyName :paramCompanyName&&paramCompanyName.company_name,
+            posType :paramPosType,
+            posName :paramPosName&&paramPosName.pos_name,
             gender :paramGender,
+            nation :paramNation&&paramNation.nation,
             start :pageNumber- (props.employeeInfoReducer.size-1)})
         getEmployeeList();
     };
@@ -235,11 +237,12 @@ function EmployeeInfo (props) {
         props.setQueryObj({
             phone:paramPhone,
             name :paramName,
-            collegeYear :paramNation,
-            collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
-            collegeName :paramCollegeName&&paramCollegeName.college_name,
-            majorName :paramMajorName,
+            companyType :paramCompanyType,
+            companyName :paramCompanyName&&paramCompanyName.company_name,
+            posType :paramPosType,
+            posName :paramPosName&&paramPosName.pos_name,
             gender :paramGender,
+            nation :paramNation&&paramNation.nation,
             start :pageNumber+ (props.employeeInfoReducer.size-1)})
         getEmployeeList();
     };

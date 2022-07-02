@@ -170,6 +170,7 @@ function StudentInfo (props) {
             collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
             collegeName :paramCollegeName&&paramCollegeName.college_name,
             majorName :paramMajorName,
+            highLevel:paramHighLevel,
             gender :paramGender,
             start :0})
         getStudentList();
@@ -185,6 +186,7 @@ function StudentInfo (props) {
             collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
             collegeName :paramCollegeName&&paramCollegeName.college_name,
             majorName :paramMajorName,
+            highLevel:paramHighLevel,
             gender :paramGender,
             start :pageNumber- (props.studentInfoReducer.size-1)})
         getStudentList();
@@ -199,6 +201,7 @@ function StudentInfo (props) {
             collegeLocate:paramCollegeLocate&&paramCollegeLocate.college_locate,
             collegeName :paramCollegeName&&paramCollegeName.college_name,
             majorName :paramMajorName,
+            highLevel:paramHighLevel,
             gender :paramGender,
             start :pageNumber+ (props.studentInfoReducer.size-1)})
         getStudentList();

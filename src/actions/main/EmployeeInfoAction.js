@@ -11,6 +11,7 @@ export const getEmployeeList = () => async (dispatch, getState) => {
         const size = getState().EmployeeInfoReducer.size;
         // 检索条件
        const paramsObj=getState().EmployeeInfoReducer.queryObj;
+       console.log(paramsObj)
         // 基本检索URL
         let url = apiHost + '/api/user/'+localUtil.getSessionItem(sysConst.LOGIN_USER_ID)+'/employee?size=' + size;
         let conditions = httpUtil.objToUrl(paramsObj);
