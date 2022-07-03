@@ -27,7 +27,7 @@ function Footer (props) {
     const classes = useStyles();
     return (
         <Box className={classes.footer}>
-            <Typography gutterBottom><span className={classes.footerProject}>鸿溧科技<span className={classes.footerVersion}>{webName}1.0版</span></span></Typography>
+            <Typography gutterBottom><span className={classes.footerProject}>大连鼓拓科技有限公司<span className={classes.footerVersion}>{webName}1.0版</span></span></Typography>
         </Box>
     )
 }
